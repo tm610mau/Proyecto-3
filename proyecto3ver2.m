@@ -2,7 +2,7 @@
 f0 = 300; % frecuencia inicial
 f1 = 1000; % frecuencia final
 fs1 = 3000;
-fs2 = 1e+05;
+fs2 = 1e+04;
 %fs= 80000; % tasa de muestreo de 80 kHz
 A = 3/2; % amplitud peak to peak
 
@@ -46,34 +46,7 @@ fm_signal1 = A*cos(2*pi*fc*t + phi1); % señal modulada (respuesta directa)
 %fm_signal = 3*cos(2*pi*fc*t).*cos(phi)-3*sin(2*pi*fc*t).*sin(phi);
 fm_signal2 = A*cos(2*pi*fc*t + phi2); % señal modulada (respuesta directa)
 
-figure(3)
-plot(t, fm_signal1)
-title('Señal up chirp modulada, \Deltaf = 100 Hz')
-xlabel('Tiempo (s)', 'FontSize', 12, 'FontWeight', 'Bold')
-ylabel('Voltaje (V)', 'FontSize', 12, 'FontWeight', 'Bold')
 
-figure(5)
-plot(t, fm_signal2)
-title('Señal up chirp modulada, \Deltaf = 500 Hz')
-xlabel('Tiempo (s)', 'FontSize', 12, 'FontWeight', 'Bold')
-ylabel('Voltaje (V)', 'FontSize', 12, 'FontWeight', 'Bold')
-
-% transformada de fourier
-Yfm1 = fft(fm_signal1)/l;
-Yfm11 =abs(fftshift(Yfm1));
-figure(4)
-plot(fr, Yfm11);
-title('fft de la señal up chirp modulada, \Deltaf = 100 Hz')
-xlabel('Frecuencia (Hz)', 'FontSize', 12, 'FontWeight', 'Bold')
-xlim([fc - fd, fc + fd])
-
-Yfm2 = fft(fm_signal2)/l;
-Yfm22 =abs(fftshift(Yfm2));
-figure(6)
-plot(fr, Yfm22);
-title('fft de la señal up chirp modulada, \Deltaf = 500 Hz')
-xlabel('Frecuencia (Hz)', 'FontSize', 12, 'FontWeight', 'Bold')
-xlim([fc - fd, fc + fd])
 
 %-----------------------------------------------------------------------------------
 %Demodulación de la señal.
@@ -99,13 +72,13 @@ plot(t(1:l-1), demod_signal1)
 title('Señal demodulada up chirp \Deltaf = 100 Hz')
 xlabel('Tiempo (s)', 'FontSize', 12, 'FontWeight', 'Bold')
 ylabel('Voltaje (V)', 'FontSize', 12, 'FontWeight', 'Bold')
-
+xlim([0,0.2])
 figure(8)
 plot(t(1:l-1), demod_signal2)
 title('Señal demodulada up chirp \Deltaf = 500 Hz')
 xlabel('Tiempo (s)', 'FontSize', 12, 'FontWeight', 'Bold')
 ylabel('Voltaje (V)', 'FontSize', 12, 'FontWeight', 'Bold')
-
+xlim([0,0.2])
 % transformada de fourier
 Ydemod1 = fft(demod_signal1)/l; % Fourier
 Ydemod1 = abs(fftshift(Ydemod1)); % correr la frecuencia cero al centro y aplicarle valor absoluto
@@ -117,10 +90,8 @@ figure(9)
 plot(fr(1:l-1), Ydemod1);
 title('fft de la señal up chirp modulada, \Deltaf = 100 Hz')
 xlabel('Frecuencia (Hz)', 'FontSize', 12, 'FontWeight', 'Bold')
-xlim([fc - fd, fc + fd])
 
 figure(10)
 plot(fr(1:l-1), Ydemod2);
 title('fft de la señal up chirp demodulada, \Deltaf = 500 Hz')
 xlabel('Frecuencia (Hz)', 'FontSize', 12, 'FontWeight', 'Bold')
-xlim([fc - fd, fc + fd])
