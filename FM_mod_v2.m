@@ -74,3 +74,39 @@ plot(fr, Yfm22);
 title('fft de la señal up chirp modulada, \Deltaf = 500 Hz')
 xlabel('Frecuencia (Hz)', 'FontSize', 12, 'FontWeight', 'Bold')
 xlim([fc - fd, fc + fd])
+
+
+% Demo ejemplo para agregar ruido
+
+test_sine = A*cos(2*pi*100*t); % sinusoide 100 Hz
+y_noise_15 = awgn(test_sine,15); % ruido de SNR = 15 dB a test_sine
+y_noise_30 = awgn(test_sine,30); % ruido de SNR = 30 dB a test_sine
+
+figure(90) % comparacion ruidos
+plot(t,y_noise_15)
+hold on
+plot(t,y_noise_30, 'LineWidth', 2)
+
+figure(7)
+plot(t, awgn(fm_signal1,15))
+title('Señal up chirp modulada, \Deltaf = 100 Hz, SNR = 15 dB')
+xlabel('Tiempo (s)', 'FontSize', 12, 'FontWeight', 'Bold')
+ylabel('Voltaje (V)', 'FontSize', 12, 'FontWeight', 'Bold')
+
+figure(8)
+plot(t, awgn(fm_signal1,30))
+title('Señal up chirp modulada, \Deltaf = 100 Hz, SNR = 30 dB')
+xlabel('Tiempo (s)', 'FontSize', 12, 'FontWeight', 'Bold')
+ylabel('Voltaje (V)', 'FontSize', 12, 'FontWeight', 'Bold')
+
+figure(9)
+plot(t, awgn(fm_signal2,15))
+title('Señal up chirp modulada, \Deltaf = 500 Hz, SNR = 15 dB')
+xlabel('Tiempo (s)', 'FontSize', 12, 'FontWeight', 'Bold')
+ylabel('Voltaje (V)', 'FontSize', 12, 'FontWeight', 'Bold')
+
+figure(10)
+plot(t, awgn(fm_signal2,30))
+title('Señal up chirp modulada, \Deltaf = 500 Hz, SNR = 30 dB')
+xlabel('Tiempo (s)', 'FontSize', 12, 'FontWeight', 'Bold')
+ylabel('Voltaje (V)', 'FontSize', 12, 'FontWeight', 'Bold')
