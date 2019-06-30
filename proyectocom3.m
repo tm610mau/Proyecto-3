@@ -1,3 +1,4 @@
+
 % Caracterización del mensaje que se desea transmitir
 f0 = 300; % frecuencia inicial
 f1 = 1000; % frecuencia final
@@ -37,23 +38,23 @@ fc = 40000; %frecuencia de carrier
 carrier = 3*cos(2*pi*fc*t); % portadora 
 phi = 2*pi*fdev1*cumsum(signal)/fs2; %phi(t)
 
-fm_signal = cos(2*pi*fc*t + phi); % señal modulada (respuesta directa)  
-%fm_signal = 3*cos(2*pi*fc*t).*cos(phi)-3*sin(2*pi*fc*t).*sin(phi);
+%fm_signal = cos(2*pi*fc*t + phi); % señal modulada (respuesta directa)  
+fm_signal = 3*cos(2*pi*fc*t).*cos(phi)-3*sin(2*pi*fc*t).*sin(phi);
 
-figure(3)
-plot(t, fm_signal)
-title('Señal up chirp modulada')
+%figure(3)
+%plot(t, fm_signal)
+%title('Señal up chirp modulada')
 
 %Ycarrier = fft(carrier)/l;
 %figure(3)
 %plot(fr, Ycarrier); %grafico de la portadora (solo para chequear)
 
 % transformada de fourier
-Yfm = fft(fm_signal)/l;
-Yfm2 =abs(fftshift(Yfm));
-figure(4)
-plot(fr, Yfm2);
-title('fft de la señal up chirp modulada')
+%Yfm = fft(fm_signal)/l;
+%Yfm2 =abs(fftshift(Yfm));
+%figure(4)
+%plot(fr, Yfm2);
+%title('fft de la señal up chirp modulada')
 
 %-----------------------------------------------------------------------------------
 %Agregar Ruido.
@@ -68,9 +69,36 @@ title('fft de la señal up chirp modulada')
 %hilb = hilbert(fm_signal).*exp(-1i*2*pi*fc*t2); % aplicar hilbert
 %demod_signal = (1/(2*pi*fdev1))*[zeros(1,size(hilb,2)); diff(unwrap(angle(hilb)))*fs2];
 
-hilb = hilbert(fm_signal).*exp(-1i*2*pi*fc*t); % aplicar hilbert
-demod_signal = diff(unwrap(angle(hilb))); %diferencial del angulo de hilbert
-demod_signal = demod_signal*fs2/(2*pi*fdev1); % cambiar amplitud
+%hilb = hilbert(fm_signal).*exp(-1i*2*pi*fc*t); % aplicar hilbert
+%demod_signal = diff(unwrap(angle(hilb))); %diferencial del angulo de hilbert
+%demod_signal = demod_signal*fs2/(2*pi*fdev1); % cambiar amplitud
+
+
+
+%Ifft = lowpass(Ifft,1000,fs);
+%Qfft = lowpass(Qfft,1000,fs);
+
+I = fm_signal.*cos(2*pi*fc*t);
+Q = fm_signal.*sin(2*pi*fc*t);
+
+
+%Ifft = abs(fftshift(fft(I)/l)); % correr la frecuencia cero al centro y aplicarle valor absoluto
+%Qfft = abs(fftshift(fft(Q)/l)); % correr la frecuencia cero al centro y aplicarle valor absoluto
+
+%[bi,ai] = butter(3,1000/(fs/2));
+%[bq,aq] = butter(3,1000/(fs/2));
+%I = filter(bi,ai,I);
+%Q = filter(bq,aq,Q);
+%figure(3)
+%plot(fr, Ifft);
+%figure(4)
+%plot(fr, Qfft);
+
+
+%I=cos(phi); %descomentar para ver como debería quedar
+%Q=sin(phi); %descomentar para ver como debería quedar
+
+demod_signal = diff(atan(Q/I)) ;
 
 figure(5)
 plot(t(1:l-1), demod_signal)
