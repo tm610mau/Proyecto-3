@@ -15,15 +15,17 @@ t = (0:1/fs2:tf)';
 %%%%%%%%%%%%%%%%%%%%%%%%% Digital LowPass Filter %%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+% Frecuencia de corte de 1500 Hz
+
 rf = 1000; % Cantidad de retardos 
 nf = rf/2;
-Tf = .1; % Intervalo de muestreo, en segundos
-%t = 0:(1/fs2):Tf;
+Tf = .01; % Intervalo de muestreo, en segundos
+t_filter = 0:(1/fs2):Tf;
 
 mf = (-rf/2):1:rf/2;
 
-c_m = sin(13*pi*mf/15)./(pi*mf); % Formula de coeficientes (sinc)
-c_m((rf/2)+1) = 13/15; % c_0, se indefine con la formula
+c_m = sin(13*pi*mf/500)./(pi*mf); % Formula de coeficientes (sinc)
+c_m((rf/2)+1) = 13/500; % c_0, se indefine con la formula
 
 w = hamming(rf+1);
 
@@ -51,20 +53,22 @@ end
 % figure(200) % Test plot fourier del filtro
 % plot(frLP,LP2, '.')
 
-% f10 = 900;
-% f11 = 2000;
-% 
-% carrier_900 = cos(2*pi*f10*t);
-% carrier_2000 = cos(2*pi*f11*t);
-% 
-% c900_filter = conv(carrier_900,cH_m,'same');
-% c2000_filter = conv(carrier_2000,cH_m,'same');
-% 
-% figure(300) % Test plot accion del filtro
-% plot(t,c900_filter)
-% hold on
-% plot(t,c2000_filter)
-% xlim([0 .1])
+f10 = 900;
+f11 = 1700;
+
+carrier_900 = cos(2*pi*f10*t_filter);
+carrier_2000 = cos(2*pi*f11*t_filter);
+
+c900_filter = conv(carrier_900,cH_m,'same');
+c2000_filter = conv(carrier_2000,cH_m,'same');
+
+figure(300) % Test plot accion del filtro
+plot(t_filter,c900_filter)
+hold on
+plot(t_filter,c2000_filter)
+legend('sinuoside de 900 Hz', 'sinusoide de 3000 Hz')
+%xlim([0 .1])
+title('accion del filtro que corta en 1500 Hz')
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%% Digital LowPass Filter %%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -99,6 +103,7 @@ fc = 40000; %frecuencia de carrier
 fd = 3e+03;
 
 carrier = A*cos(2*pi*fc*t); % portadora 
+carrier_90 = -A*sin(2*pi*fc*t); % portadora adelantada en 90°
 phi1 = 2*pi*fdev1*cumsum(signal)/fs2; %phi1(t)
 phi2 = 2*pi*fdev2*cumsum(signal)/fs2; %phi2(t)
 
@@ -178,19 +183,42 @@ ylabel('Voltaje (V)', 'FontSize', 12, 'FontWeight', 'Bold')
 
 %Demodulación de la señal.
 
-s1_15dB_hilb = hilbert(s1_15dB);
-s1_30dB_hilb = hilbert(s1_30dB);
-s2_15dB_hilb = hilbert(s2_15dB);
-s2_30dB_hilb = hilbert(s2_30dB);
+% s1_15dB_hilb = hilbert(s1_15dB);
+% s1_30dB_hilb = hilbert(s1_30dB);
+% s2_15dB_hilb = hilbert(s2_15dB);
+% s2_30dB_hilb = hilbert(s2_30dB);
 
-% figure(500)
-% plot(s1_15dB_hilb)
-% 
-% figure(501)
-% plot(s1_30dB_hilb)
-% 
-% figure(502)
-% plot(s2_15dB_hilb)
-% 
-% figure(503)
-% plot(s2_30dB_hilb)
+
+%%%%%%%%%%%%%%%%%%% Delta_f = 100 Hz, SNR = 15 dB %%%%%%%%%%%%%%%%%%%%%%%%%
+
+s1_15dB_cos = carrier.*s1_15dB;
+s1_15dB_sin = carrier_90.*s1_15dB;
+
+I1_15 = conv(s1_15dB_cos,cH_m,'same');
+Q1_15 = conv(s1_15dB_sin,cH_m,'same');
+
+
+
+%%%%%%%%%%%%%%%%%%% Delta_f = 100 Hz, SNR = 30 dB %%%%%%%%%%%%%%%%%%%%%%%%%
+
+s1_30dB_cos = carrier.*s1_30dB;
+s1_30dB_sin = carrier_90.*s1_30dB;
+
+I1_30 = conv(s1_30dB_cos,cH_m,'same');
+Q1_30 = conv(s1_30dB_sin,cH_m,'same');
+
+%%%%%%%%%%%%%%%%%%% Delta_f = 500 Hz, SNR = 15 dB %%%%%%%%%%%%%%%%%%%%%%%%%
+
+s2_15dB_cos = carrier.*s2_15dB;
+s2_15dB_sin = carrier_90.*s2_15dB;
+
+I2_15 = conv(s2_15dB_cos,cH_m,'same');
+Q2_15 = conv(s2_15dB_sin,cH_m,'same');
+
+%%%%%%%%%%%%%%%%%%% Delta_f = 500 Hz, SNR = 30 dB %%%%%%%%%%%%%%%%%%%%%%%%%
+
+s2_30dB_cos = carrier.*s2_30dB;
+s2_30dB_sin = carrier_90.*s2_30dB;
+
+I2_30 = conv(s2_30dB_cos,cH_m,'same');
+Q2_30 = conv(s2_30dB_sin,cH_m,'same');
