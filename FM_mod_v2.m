@@ -197,7 +197,10 @@ s1_15dB_sin = carrier_90.*s1_15dB;
 I1_15 = conv(s1_15dB_cos,cH_m,'same');
 Q1_15 = conv(s1_15dB_sin,cH_m,'same');
 
+R1_15 = I1_15.*I1_15 + Q1_15.*Q1_15;
 
+phi1_15 = fs2*(diff(Q1_15).*I1_15(1:end-1) - diff(I1_15).*Q1_15(1:end-1))...
+    ./(2*pi*fdev1*R1_15(1:end-1));
 
 %%%%%%%%%%%%%%%%%%% Delta_f = 100 Hz, SNR = 30 dB %%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -207,6 +210,11 @@ s1_30dB_sin = carrier_90.*s1_30dB;
 I1_30 = conv(s1_30dB_cos,cH_m,'same');
 Q1_30 = conv(s1_30dB_sin,cH_m,'same');
 
+R1_30 = I1_30.*I1_30 + Q1_30.*Q1_30;
+
+phi1_30 = fs2*(diff(Q1_30).*I1_30(1:end-1) - diff(I1_30).*Q1_30(1:end-1))...
+    ./(2*pi*fdev1*R1_30(1:end-1));
+
 %%%%%%%%%%%%%%%%%%% Delta_f = 500 Hz, SNR = 15 dB %%%%%%%%%%%%%%%%%%%%%%%%%
 
 s2_15dB_cos = carrier.*s2_15dB;
@@ -215,6 +223,11 @@ s2_15dB_sin = carrier_90.*s2_15dB;
 I2_15 = conv(s2_15dB_cos,cH_m,'same');
 Q2_15 = conv(s2_15dB_sin,cH_m,'same');
 
+R2_15 = I2_15.*I2_15 + Q2_15.*Q2_15;
+
+phi2_15 = fs2*(diff(Q2_15).*I2_15(1:end-1) - diff(I2_15).*Q2_15(1:end-1))...
+    ./(2*pi*fdev2*R2_15(1:end-1));
+
 %%%%%%%%%%%%%%%%%%% Delta_f = 500 Hz, SNR = 30 dB %%%%%%%%%%%%%%%%%%%%%%%%%
 
 s2_30dB_cos = carrier.*s2_30dB;
@@ -222,3 +235,23 @@ s2_30dB_sin = carrier_90.*s2_30dB;
 
 I2_30 = conv(s2_30dB_cos,cH_m,'same');
 Q2_30 = conv(s2_30dB_sin,cH_m,'same');
+
+R2_30 = I2_30.*I2_30 + Q2_30.*Q2_30;
+
+phi2_30 = fs2*(diff(Q2_30).*I2_30(1:end-1) - diff(I2_30).*Q2_30(1:end-1))...
+    ./(2*pi*fdev2*R2_30(1:end-1));
+
+% Graficos de prueba
+
+figure(555)
+plot(phi2_30)
+
+% transformada de Fourier
+L2_30 = length(phi2_30);
+Y2_30 = fft(phi2_30)/L2_30;
+Y2_30 = abs(fftshift(Y2_30)); % correr la frecuencia cero al centro y aplicarle valor absoluto
+fr2_30 = (fs2/2)*linspace(-1,1-2/L2_30,L2_30); %vector de frecuencias
+
+figure(556)
+plot(fr2_30,Y2_30)
+xlim([-fs1/2 fs1/2])
