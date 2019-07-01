@@ -1,4 +1,4 @@
-% Caracterización del mensaje que se desea transmitir
+% CaracterizaciÃ³n del mensaje que se desea transmitir
 
 f0 = 300; % frecuencia inicial
 f1 = 1000; % frecuencia final
@@ -80,7 +80,7 @@ signal = A*chirp(t,f0,tf,f1); % up chirp
 
 figure(1)
 plot(t, signal)
-title('Señal up chirp')
+title('SeÃ±al up chirp')
 xlabel('Tiempo (s)', 'FontSize', 12, 'FontWeight', 'Bold')
 ylabel('Voltaje (V)', 'FontSize', 12, 'FontWeight', 'Bold')
 
@@ -93,36 +93,37 @@ fr = fs2/2 * linspace(-1,1-2/l,l); %vector de frecuencias
 %fr = Fs*(0:L-1);
 figure(2)
 plot(fr, Y2);
-title('fft de la señal up chirp')
+title('fft de la seÃ±al up chirp')
 xlabel('Frecuencia (Hz)', 'FontSize', 12, 'FontWeight', 'Bold')
 ylabel('Amplitud')
 xlim([-fs1/2 fs1/2])
 
-%Modulación de la señal.
+%ModulaciÃ³n de la seÃ±al.
 
-fdev1 = 100; %desviación de frecuencia de 100 Hz
-fdev2 = 500; %desviación de frecuencia de 500 Hz
+fdev1 = 100; %desviaciÃ³n de frecuencia de 100 Hz
+fdev2 = 500; %desviaciÃ³n de frecuencia de 500 Hz
 fc = 40000; %frecuencia de carrier
 fd = 3e+03;
 
 carrier = A*cos(2*pi*fc*t); % portadora 
-carrier_90 = -A*sin(2*pi*fc*t); % portadora adelantada en 90°
+carrier_90 = -A*sin(2*pi*fc*t); % portadora adelantada en 90Â°
 phi1 = 2*pi*fdev1*cumsum(signal)/fs2; %phi1(t)
 phi2 = 2*pi*fdev2*cumsum(signal)/fs2; %phi2(t)
 
-fm_signal1 = A*cos(2*pi*fc*t + phi1); % señal modulada (respuesta directa)  
+fm_signal1 = A*cos(2*pi*fc*t + phi1); % seÃ±al modulada (respuesta directa)  
 %fm_signal = 3*cos(2*pi*fc*t).*cos(phi)-3*sin(2*pi*fc*t).*sin(phi);
-fm_signal2 = A*cos(2*pi*fc*t + phi2); % señal modulada (respuesta directa)
+fm_signal2 = A*cos(2*pi*fc*t + phi2); % seÃ±al modulada (respuesta directa)
 
 figure(3)
+subplot(2,1,1);
 plot(t, fm_signal1)
-title('Señal up chirp modulada, \Deltaf = 100 Hz')
+title('SeÃ±al up chirp modulada, \Deltaf = 100 Hz')
 xlabel('Tiempo (s)', 'FontSize', 12, 'FontWeight', 'Bold')
 ylabel('Voltaje (V)', 'FontSize', 12, 'FontWeight', 'Bold')
 
-figure(5)
+subplot(2,1,2);
 plot(t, fm_signal2)
-title('Señal up chirp modulada, \Deltaf = 500 Hz')
+title('SeÃ±al up chirp modulada, \Deltaf = 500 Hz')
 xlabel('Tiempo (s)', 'FontSize', 12, 'FontWeight', 'Bold')
 ylabel('Voltaje (V)', 'FontSize', 12, 'FontWeight', 'Bold')
 
@@ -130,17 +131,19 @@ ylabel('Voltaje (V)', 'FontSize', 12, 'FontWeight', 'Bold')
 Yfm1 = fft(fm_signal1)/l;
 Yfm11 =abs(fftshift(Yfm1));
 figure(4)
+subplot(2,1,1);
 plot(fr, Yfm11);
-title('fft de la señal up chirp modulada, \Deltaf = 100 Hz')
+title('fft de la seÃ±al up chirp modulada, \Deltaf = 100 Hz')
 xlabel('Frecuencia (Hz)', 'FontSize', 12, 'FontWeight', 'Bold')
 xlim([fc - fd, fc + fd])
 ylabel('Amplitud')
 
 Yfm2 = fft(fm_signal2)/l;
 Yfm22 =abs(fftshift(Yfm2));
-figure(6)
+
+subplot(2,1,2);
 plot(fr, Yfm22);
-title('fft de la señal up chirp modulada, \Deltaf = 500 Hz')
+title('fft de la seÃ±al up chirp modulada, \Deltaf = 500 Hz')
 xlabel('Frecuencia (Hz)', 'FontSize', 12, 'FontWeight', 'Bold')
 xlim([fc - fd, fc + fd])
 ylabel('Amplitud')
@@ -162,31 +165,33 @@ s1_30dB = awgn(fm_signal1,30);
 s2_15dB = awgn(fm_signal2,15);
 s2_30dB = awgn(fm_signal2,30);
 
-figure(7)
+figure(5)
+subplot(2,1,1);
 plot(t, s1_15dB)
-title('Señal up chirp modulada, \Deltaf = 100 Hz, SNR = 15 dB')
+title('SeÃ±al up chirp modulada, \Deltaf = 100 Hz, SNR = 15 dB')
 xlabel('Tiempo (s)', 'FontSize', 12, 'FontWeight', 'Bold')
 ylabel('Voltaje (V)', 'FontSize', 12, 'FontWeight', 'Bold')
 
-figure(8)
+subplot(2,1,2);
 plot(t, s1_30dB)
-title('Señal up chirp modulada, \Deltaf = 100 Hz, SNR = 30 dB')
+title('SeÃ±al up chirp modulada, \Deltaf = 100 Hz, SNR = 30 dB')
 xlabel('Tiempo (s)', 'FontSize', 12, 'FontWeight', 'Bold')
 ylabel('Voltaje (V)', 'FontSize', 12, 'FontWeight', 'Bold')
 
-figure(9)
+figure(6)
+subplot(2,1,1);
 plot(t, s2_15dB)
-title('Señal up chirp modulada, \Deltaf = 500 Hz, SNR = 15 dB')
+title('SeÃ±al up chirp modulada, \Deltaf = 500 Hz, SNR = 15 dB')
 xlabel('Tiempo (s)', 'FontSize', 12, 'FontWeight', 'Bold')
 ylabel('Voltaje (V)', 'FontSize', 12, 'FontWeight', 'Bold')
 
-figure(10)
+subplot(2,1,2);
 plot(t, s2_30dB)
-title('Señal up chirp modulada, \Deltaf = 500 Hz, SNR = 30 dB')
+title('SeÃ±al up chirp modulada, \Deltaf = 500 Hz, SNR = 30 dB')
 xlabel('Tiempo (s)', 'FontSize', 12, 'FontWeight', 'Bold')
 ylabel('Voltaje (V)', 'FontSize', 12, 'FontWeight', 'Bold')
 
-%Demodulación de la señal.
+%DemodulaciÃ³n de la seÃ±al.
 
 % s1_15dB_hilb = hilbert(s1_15dB);
 % s1_30dB_hilb = hilbert(s1_30dB);
@@ -212,24 +217,24 @@ Y1_15 = fft(phi1_15)/L1_15;
 Y1_15 = abs(fftshift(Y1_15)); % correr la frecuencia cero al centro y aplicarle valor absoluto
 fr1_15 = (fs2/2)*linspace(-1,1-2/L1_15,L1_15); %vector de frecuencias
 
-figure(11)
+figure(7)
 plot(fr1_15,Y1_15)
 hold on
 plot(fr,Y2)
 xlim([-fs1/2 fs1/2])
 xlabel('Frecuencia (Hz)', 'FontSize', 12, 'FontWeight', 'Bold')
 ylabel('Amplitud', 'FontSize', 12, 'FontWeight', 'Bold')
-title('Demodulación en espacio de Fourier, \Deltaf = 100 Hz, SNR = 15 dB ')
-legend('Demodulación', 'Original')
+title('DemodulaciÃ³n en espacio de Fourier, \Deltaf = 100 Hz, SNR = 15 dB ')
+legend('DemodulaciÃ³n', 'Original')
 
-figure(110)
+figure(8)
 plot(t(1:end-1),phi1_15)
 hold on
 plot(t, signal)
-title('Señal up chirp, \Deltaf = 100 Hz, SNR = 15 dB')
+title('SeÃ±al up chirp, \Deltaf = 100 Hz, SNR = 15 dB')
 xlabel('Tiempo (s)', 'FontSize', 12, 'FontWeight', 'Bold')
 ylabel('Voltaje (V)', 'FontSize', 12, 'FontWeight', 'Bold')
-legend('Demodulación', 'Original')
+legend('DemodulaciÃ³n', 'Original')
 
 %%%%%%%%%%%%%%%%%%% Delta_f = 100 Hz, SNR = 30 dB %%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -249,24 +254,24 @@ Y1_30 = fft(phi1_30)/L1_30;
 Y1_30 = abs(fftshift(Y1_30)); % correr la frecuencia cero al centro y aplicarle valor absoluto
 fr1_30 = (fs2/2)*linspace(-1,1-2/L1_30,L1_30); %vector de frecuencias
 
-figure(12)
+figure(9)
 plot(fr1_30,Y1_30)
 hold on
 plot(fr,Y2)
 xlim([-fs1/2 fs1/2])
 xlabel('Frecuencia (Hz)', 'FontSize', 12, 'FontWeight', 'Bold')
 ylabel('Amplitud', 'FontSize', 12, 'FontWeight', 'Bold')
-title('Demodulación en espacio de Fourier, \Deltaf = 100 Hz, SNR = 30 dB ')
-legend('Demodulación', 'Original')
+title('DemodulaciÃ³n en espacio de Fourier, \Deltaf = 100 Hz, SNR = 30 dB ')
+legend('DemodulaciÃ³n', 'Original')
 
-figure(120)
+figure(10)
 plot(t(1:end-1),phi1_30)
 hold on
 plot(t, signal)
-title('Señal up chirp, \Deltaf = 100 Hz, SNR = 30 dB')
+title('SeÃ±al up chirp, \Deltaf = 100 Hz, SNR = 30 dB')
 xlabel('Tiempo (s)', 'FontSize', 12, 'FontWeight', 'Bold')
 ylabel('Voltaje (V)', 'FontSize', 12, 'FontWeight', 'Bold')
-legend('Demodulación', 'Original')
+legend('DemodulaciÃ³n', 'Original')
 
 %%%%%%%%%%%%%%%%%%% Delta_f = 500 Hz, SNR = 15 dB %%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -286,24 +291,24 @@ Y2_15 = fft(phi2_15)/L2_15;
 Y2_15 = abs(fftshift(Y2_15)); % correr la frecuencia cero al centro y aplicarle valor absoluto
 fr2_15 = (fs2/2)*linspace(-1,1-2/L2_15,L2_15); %vector de frecuencias
 
-figure(130)
+figure(11)
 plot(t(1:end-1),phi2_15)
 hold on
 plot(t, signal)
-title('Señal up chirp, \Deltaf = 500 Hz, SNR = 15 dB')
+title('SeÃ±al up chirp, \Deltaf = 500 Hz, SNR = 15 dB')
 xlabel('Tiempo (s)', 'FontSize', 12, 'FontWeight', 'Bold')
 ylabel('Voltaje (V)', 'FontSize', 12, 'FontWeight', 'Bold')
-legend('Demodulación', 'Original')
+legend('DemodulaciÃ³n', 'Original')
 
-figure(13)
+figure(12)
 plot(fr2_15,Y2_15)
 hold on
 plot(fr,Y2)
 xlim([-fs1/2 fs1/2])
 xlabel('Frecuencia (Hz)', 'FontSize', 12, 'FontWeight', 'Bold')
 ylabel('Amplitud', 'FontSize', 12, 'FontWeight', 'Bold')
-title('Demodulación en espacio de Fourier, \Deltaf = 500 Hz, SNR = 15 dB ')
-legend('Demodulación', 'Original')
+title('DemodulaciÃ³n en espacio de Fourier, \Deltaf = 500 Hz, SNR = 15 dB ')
+legend('DemodulaciÃ³n', 'Original')
 
 %%%%%%%%%%%%%%%%%%% Delta_f = 500 Hz, SNR = 30 dB %%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -323,24 +328,24 @@ Y2_30 = fft(phi2_30)/L2_30;
 Y2_30 = abs(fftshift(Y2_30)); % correr la frecuencia cero al centro y aplicarle valor absoluto
 fr2_30 = (fs2/2)*linspace(-1,1-2/L2_30,L2_30); %vector de frecuencias
 
-figure(14)
+figure(13)
 plot(fr2_30,Y2_30)
 hold on
 plot(fr,Y2)
 xlim([-fs1/2 fs1/2])
 xlabel('Frecuencia (Hz)', 'FontSize', 12, 'FontWeight', 'Bold')
 ylabel('Amplitud', 'FontSize', 12, 'FontWeight', 'Bold')
-title('Demodulación en espacio de Fourier, \Deltaf = 500 Hz, SNR = 30 dB ')
-legend('Demodulación', 'Original')
+title('DemodulaciÃ³n en espacio de Fourier, \Deltaf = 500 Hz, SNR = 30 dB ')
+legend('DemodulaciÃ³n', 'Original')
 
-figure(140)
+figure(14)
 plot(t(1:end-1),phi2_30)
 hold on
 plot(t, signal)
-title('Señal up chirp, \Deltaf = 500 Hz, SNR = 30 dB')
+title('SeÃ±al up chirp, \Deltaf = 500 Hz, SNR = 30 dB')
 xlabel('Tiempo (s)', 'FontSize', 12, 'FontWeight', 'Bold')
 ylabel('Voltaje (V)', 'FontSize', 12, 'FontWeight', 'Bold')
-legend('Demodulación', 'Original')
+legend('DemodulaciÃ³n', 'Original')
 
 % % Graficos de prueba
 % 
