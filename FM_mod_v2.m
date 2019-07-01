@@ -2,7 +2,7 @@
 
 f0 = 300; % frecuencia inicial
 f1 = 1000; % frecuencia final
-%fs1 = 3000;
+fs1 = 3400;
 fs2 = 1e+05;
 %fs= 80000; % tasa de muestreo de 80 kHz
 A = 3/2; % amplitud peak to peak
@@ -95,6 +95,7 @@ figure(2)
 plot(fr, Y2);
 title('fft de la señal up chirp')
 xlabel('Frecuencia (Hz)', 'FontSize', 12, 'FontWeight', 'Bold')
+ylabel('Amplitud')
 xlim([-fs1/2 fs1/2])
 
 %Modulación de la señal.
@@ -133,6 +134,7 @@ plot(fr, Yfm11);
 title('fft de la señal up chirp modulada, \Deltaf = 100 Hz')
 xlabel('Frecuencia (Hz)', 'FontSize', 12, 'FontWeight', 'Bold')
 xlim([fc - fd, fc + fd])
+ylabel('Amplitud')
 
 Yfm2 = fft(fm_signal2)/l;
 Yfm22 =abs(fftshift(Yfm2));
@@ -141,6 +143,7 @@ plot(fr, Yfm22);
 title('fft de la señal up chirp modulada, \Deltaf = 500 Hz')
 xlabel('Frecuencia (Hz)', 'FontSize', 12, 'FontWeight', 'Bold')
 xlim([fc - fd, fc + fd])
+ylabel('Amplitud')
 
 
 % Demo ejemplo para agregar ruido
@@ -217,6 +220,16 @@ xlim([-fs1/2 fs1/2])
 xlabel('Frecuencia (Hz)', 'FontSize', 12, 'FontWeight', 'Bold')
 ylabel('Amplitud', 'FontSize', 12, 'FontWeight', 'Bold')
 title('Demodulación en espacio de Fourier, \Deltaf = 100 Hz, SNR = 15 dB ')
+legend('Demodulación', 'Original')
+
+figure(110)
+plot(t(1:end-1),phi1_15)
+hold on
+plot(t, signal)
+title('Señal up chirp, \Deltaf = 100 Hz, SNR = 15 dB')
+xlabel('Tiempo (s)', 'FontSize', 12, 'FontWeight', 'Bold')
+ylabel('Voltaje (V)', 'FontSize', 12, 'FontWeight', 'Bold')
+legend('Demodulación', 'Original')
 
 %%%%%%%%%%%%%%%%%%% Delta_f = 100 Hz, SNR = 30 dB %%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -244,6 +257,16 @@ xlim([-fs1/2 fs1/2])
 xlabel('Frecuencia (Hz)', 'FontSize', 12, 'FontWeight', 'Bold')
 ylabel('Amplitud', 'FontSize', 12, 'FontWeight', 'Bold')
 title('Demodulación en espacio de Fourier, \Deltaf = 100 Hz, SNR = 30 dB ')
+legend('Demodulación', 'Original')
+
+figure(120)
+plot(t(1:end-1),phi1_30)
+hold on
+plot(t, signal)
+title('Señal up chirp, \Deltaf = 100 Hz, SNR = 30 dB')
+xlabel('Tiempo (s)', 'FontSize', 12, 'FontWeight', 'Bold')
+ylabel('Voltaje (V)', 'FontSize', 12, 'FontWeight', 'Bold')
+legend('Demodulación', 'Original')
 
 %%%%%%%%%%%%%%%%%%% Delta_f = 500 Hz, SNR = 15 dB %%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -263,6 +286,15 @@ Y2_15 = fft(phi2_15)/L2_15;
 Y2_15 = abs(fftshift(Y2_15)); % correr la frecuencia cero al centro y aplicarle valor absoluto
 fr2_15 = (fs2/2)*linspace(-1,1-2/L2_15,L2_15); %vector de frecuencias
 
+figure(130)
+plot(t(1:end-1),phi2_15)
+hold on
+plot(t, signal)
+title('Señal up chirp, \Deltaf = 500 Hz, SNR = 15 dB')
+xlabel('Tiempo (s)', 'FontSize', 12, 'FontWeight', 'Bold')
+ylabel('Voltaje (V)', 'FontSize', 12, 'FontWeight', 'Bold')
+legend('Demodulación', 'Original')
+
 figure(13)
 plot(fr2_15,Y2_15)
 hold on
@@ -271,6 +303,7 @@ xlim([-fs1/2 fs1/2])
 xlabel('Frecuencia (Hz)', 'FontSize', 12, 'FontWeight', 'Bold')
 ylabel('Amplitud', 'FontSize', 12, 'FontWeight', 'Bold')
 title('Demodulación en espacio de Fourier, \Deltaf = 500 Hz, SNR = 15 dB ')
+legend('Demodulación', 'Original')
 
 %%%%%%%%%%%%%%%%%%% Delta_f = 500 Hz, SNR = 30 dB %%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -298,6 +331,16 @@ xlim([-fs1/2 fs1/2])
 xlabel('Frecuencia (Hz)', 'FontSize', 12, 'FontWeight', 'Bold')
 ylabel('Amplitud', 'FontSize', 12, 'FontWeight', 'Bold')
 title('Demodulación en espacio de Fourier, \Deltaf = 500 Hz, SNR = 30 dB ')
+legend('Demodulación', 'Original')
+
+figure(140)
+plot(t(1:end-1),phi2_30)
+hold on
+plot(t, signal)
+title('Señal up chirp, \Deltaf = 500 Hz, SNR = 30 dB')
+xlabel('Tiempo (s)', 'FontSize', 12, 'FontWeight', 'Bold')
+ylabel('Voltaje (V)', 'FontSize', 12, 'FontWeight', 'Bold')
+legend('Demodulación', 'Original')
 
 % % Graficos de prueba
 % 
