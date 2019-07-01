@@ -188,15 +188,37 @@ ylabel('Voltaje (V)', 'FontSize', 12, 'FontWeight', 'Bold')
 % s2_15dB_hilb = hilbert(s2_15dB);
 % s2_30dB_hilb = hilbert(s2_30dB);
 
-% figure(500)
-% plot(s1_15dB_hilb)
-% 
-% figure(501)
-% plot(s1_30dB_hilb)
-% 
-% figure(502)
-% plot(s2_15dB_hilb)
-% 
-% figure(503)
-% plot(s2_30dB_hilb)
 
+%%%%%%%%%%%%%%%%%%% Delta_f = 100 Hz, SNR = 15 dB %%%%%%%%%%%%%%%%%%%%%%%%%
+
+s1_15dB_cos = carrier.*s1_15dB;
+s1_15dB_sin = carrier_90.*s1_15dB;
+
+I1_15 = conv(s1_15dB_cos,cH_m,'same');
+Q1_15 = conv(s1_15dB_sin,cH_m,'same');
+
+
+
+%%%%%%%%%%%%%%%%%%% Delta_f = 100 Hz, SNR = 30 dB %%%%%%%%%%%%%%%%%%%%%%%%%
+
+s1_30dB_cos = carrier.*s1_30dB;
+s1_30dB_sin = carrier_90.*s1_30dB;
+
+I1_30 = conv(s1_30dB_cos,cH_m,'same');
+Q1_30 = conv(s1_30dB_sin,cH_m,'same');
+
+%%%%%%%%%%%%%%%%%%% Delta_f = 500 Hz, SNR = 15 dB %%%%%%%%%%%%%%%%%%%%%%%%%
+
+s2_15dB_cos = carrier.*s2_15dB;
+s2_15dB_sin = carrier_90.*s2_15dB;
+
+I2_15 = conv(s2_15dB_cos,cH_m,'same');
+Q2_15 = conv(s2_15dB_sin,cH_m,'same');
+
+%%%%%%%%%%%%%%%%%%% Delta_f = 500 Hz, SNR = 30 dB %%%%%%%%%%%%%%%%%%%%%%%%%
+
+s2_30dB_cos = carrier.*s2_30dB;
+s2_30dB_sin = carrier_90.*s2_30dB;
+
+I2_30 = conv(s2_30dB_cos,cH_m,'same');
+Q2_30 = conv(s2_30dB_sin,cH_m,'same');
